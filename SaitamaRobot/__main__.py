@@ -61,7 +61,7 @@ HELP_STRINGS = """
 Hai nama ku Patrick star.
 walaupun semua orang bilang aku bodoh tapi aku bisa membantu mu mengurus grup dengan.
 
-*Main* commands available:
+*Main* commands available: [🧠](https://telegra.ph/file/f75cbe142b265aa48de19.jpg)
  🐟 /help: PM's you this message.
  🐟 /help <module name>: PM's you info about that module.
  🐟 settings:
