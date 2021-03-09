@@ -61,12 +61,17 @@ HELP_STRINGS = """
 Hai nama ku Patrick star.
 walaupun semua orang bilang aku bodoh tapi aku bisa membantu mu mengurus grup dengan.
 
-*Main* commands available: [🧠](https://telegra.ph/file/f75cbe142b265aa48de19.jpg)
- 🐟 /help: PM's you this message.
- 🐟 /help <module name>: PM's you info about that module.
- 🐟 settings:
-   • in PM: will send you your settings for all supported modules.
-   • in a group: will redirect you to pm, with all that chat's settings.
+*Main* commands tersedia: [🧠](https://telegra.ph/file/f75cbe142b265aa48de19.jpg)
+Perintah utama tersedia: 🧠
+ 🐟 / help: PM adalah Anda pesan ini.
+ 🐟 / help : PM's info Anda tentang modul itu.
+ 🐟 pengaturan:
+   • di PM: akan mengirimkan pengaturan Anda untuk semua modul yang didukung.
+   • dalam grup: akan mengarahkan Anda ke pm, dengan semua pengaturan obrolan itu.
+
+
+Patrick si bintang
+Dan berikut ini:   
 
 
 {}
@@ -77,10 +82,10 @@ And the following:
 
 SAITAMA_IMG = "https://telegra.ph/file/93addc0640ee81b9b94e6.mp4"
 
-DONATE_STRING = """donate to the original writer of the Base code, Paul
-There are two ways of supporting him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
+DONATE_STRING = """donasikan kepada penulis asli Kode dasar, Paul
+Ada dua cara untuk mendukungnya; [PayPal](paypal.me/PaulSonOfLars), atau [Monzo](monzo.me/paulnionvestergaardlarsen).."""
 
-IMPORTED = {}
+IMPORTED = {
 MIGRATEABLE = []
 HELPABLE = {}
 STATS = []
@@ -176,21 +181,21 @@ def start(update: Update, context: CallbackContext):
                 reply_markup=InlineKeyboardMarkup(                   
                           [[
                               InlineKeyboardButton(
-                              text="🔥tambahkan aku ke grup mu🔥",
+                              text="➕tambahkan aku ke grup mu",
                               url="t.me/{}?startgroup=true".format(
                                   context.bot.username))
                           ], 
                           [
                               InlineKeyboardButton(
-                              text="🍁Support Group🍁",
+                              text="Grup Bantuan",
                               url=f"https://t.me/PatrickSupport"),
                               InlineKeyboardButton(
-                              text="🥢my owner🥢",
+                              text="🥢Pemilik🥢",
                               url="https://t.me/Nathalie_Agathaa")
                           ]])) 
     else:
         update.effective_message.reply_text(
-            "I'm online!\n<b>Up since:</b> <code>{}</code>".format(uptime),
+            "Ya Aku Disini!".format(uptime),
             parse_mode=ParseMode.HTML)
 
 
@@ -237,7 +242,7 @@ def help_button(update, context):
     try:
         if mod_match:
             module = mod_match.group(1)
-            text = ("Here is the help for the *{}* module:\n".format(
+            text = ("Berikut adalah bantuan untuk modul * {} *:\n".format(
                 HELPABLE[module].__mod_name__) + HELPABLE[module].__help__)
             query.message.edit_text(
                 text=text,
@@ -245,7 +250,7 @@ def help_button(update, context):
                 disable_web_page_preview=True,
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
-                        text="Back", callback_data="help_back")
+                        text="Kembali", callback_data="help_back")
                 ]]))
 
         elif prev_match:
@@ -288,10 +293,10 @@ def get_help(update: Update, context: CallbackContext):
     if chat.type != chat.PRIVATE:
 
         update.effective_message.reply_text(
-            "Contact me in PM to get the list of possible commands.",
+            "Hubungi saya di PM untuk mendapatkan daftar perintah yang memungkinkan.",
             reply_markup=InlineKeyboardMarkup([[
                 InlineKeyboardButton(
-                    text="Help",
+                    text="Bantuan",
                     url="t.me/{}?start=help".format(context.bot.username))
             ]]))
         return
@@ -303,7 +308,7 @@ def get_help(update: Update, context: CallbackContext):
         send_help(
             chat.id, text,
             InlineKeyboardMarkup(
-                [[InlineKeyboardButton(text="Back",
+                [[InlineKeyboardButton(text="kembali",
                                        callback_data="help_back")]]))
 
     else:
@@ -324,7 +329,7 @@ def send_settings(chat_id, user_id, user=False):
         else:
             dispatcher.bot.send_message(
                 user_id,
-                "Seems like there aren't any user specific settings available :'(",
+                "Sepertinya tidak ada pengaturan khusus pengguna yang tersedia :'(",
                 parse_mode=ParseMode.MARKDOWN)
 
     else:
@@ -332,7 +337,7 @@ def send_settings(chat_id, user_id, user=False):
             chat_name = dispatcher.bot.getChat(chat_id).title
             dispatcher.bot.send_message(
                 user_id,
-                text="Which module would you like to check {}'s settings for?"
+                text="Modul mana yang ingin Anda periksa setelan {}?"
                 .format(chat_name),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(0, CHAT_SETTINGS, "stngs", chat=chat_id)))
@@ -340,7 +345,7 @@ def send_settings(chat_id, user_id, user=False):
             dispatcher.bot.send_message(
                 user_id,
                 "Seems like there aren't any chat settings available :'(\nSend this "
-                "in a group chat you're admin in to find its current settings!",
+                "dalam obrolan grup tempat Anda menjadi admin untuk menemukan pengaturannya saat ini!",
                 parse_mode=ParseMode.MARKDOWN)
 
 
@@ -358,7 +363,7 @@ def settings_button(update: Update, context: CallbackContext):
             chat_id = mod_match.group(1)
             module = mod_match.group(2)
             chat = bot.get_chat(chat_id)
-            text = "*{}* has the following settings for the *{}* module:\n\n".format(escape_markdown(chat.title),
+            text = "* {} * memiliki setelan berikut untuk modul * {} *:\n\n".format(escape_markdown(chat.title),
                                                                                      CHAT_SETTINGS[module].__mod_name__) + \
                    CHAT_SETTINGS[module].__chat_settings__(chat_id, user.id)
             query.message.reply_text(
@@ -366,7 +371,7 @@ def settings_button(update: Update, context: CallbackContext):
                 parse_mode=ParseMode.MARKDOWN,
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
-                        text="Back",
+                        text="Kembaki",
                         callback_data="stngs_back({})".format(chat_id))
                 ]]))
 
@@ -375,8 +380,8 @@ def settings_button(update: Update, context: CallbackContext):
             curr_page = int(prev_match.group(2))
             chat = bot.get_chat(chat_id)
             query.message.reply_text(
-                "Hi there! There are quite a few settings for {} - go ahead and pick what "
-                "you're interested in.".format(chat.title),
+                " Halo yang disana! Ada beberapa setelan untuk {} - lanjutkan dan pilih apa"
+                "Anda tertarik.".format(chat.title),
                 reply_markup=InlineKeyboardMarkup(
                     paginate_modules(
                         curr_page - 1, CHAT_SETTINGS, "stngs", chat=chat_id)))
@@ -426,17 +431,17 @@ def get_settings(update: Update, context: CallbackContext):
     # ONLY send settings in PM
     if chat.type != chat.PRIVATE:
         if is_user_admin(chat, user.id):
-            text = "Click here to get this chat's settings, as well as yours."
+            text = "Klik di sini untuk mendapatkan pengaturan obrolan ini, serta milik Anda."
             msg.reply_text(
                 text,
                 reply_markup=InlineKeyboardMarkup([[
                     InlineKeyboardButton(
-                        text="Settings",
+                        text="Pengaturan",
                         url="t.me/{}?start=stngs_{}".format(
                             context.bot.username, chat.id))
                 ]]))
         else:
-            text = "Click here to check your settings."
+            text = "Klik di sini untuk memeriksa pengaturan Anda."
 
     else:
         send_settings(chat.id, user.id, True)
