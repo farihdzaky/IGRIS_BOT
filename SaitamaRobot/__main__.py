@@ -6,7 +6,7 @@ from typing import Optional
 
 from SaitamaRobot import (ALLOW_EXCL, CERT_PATH, DONATION_LINK, LOGGER,
                           OWNER_ID, PORT, SUPPORT_CHAT, TOKEN, URL, WEBHOOK,
-                          dispatcher, StartTime, telethn, updater)
+                          dispatcher, StartTime, telethn, updater,igris)
 # needed to dynamically load modules
 # NOTE: Module order is not guaranteed, specify that in the config file!
 from SaitamaRobot.modules import ALL_MODULES
@@ -51,22 +51,20 @@ def get_readable_time(seconds: int) -> str:
 
 
 PM_START_TEXT = """
-Hi {}, my name is {}! 
-I am an Anime themed group management bot.
-Build by weebs for weebs, I specialize in managing anime and similar themed groups.
-You can find my list of available commands with /help.
+Hai {},nama ku Patrick star 
+Aku adalah bot management grup, masukkan aku ke grup mu.
+Aku akan membantu mengatur grup mu.
+Untuk mengetahui semua perintah ketik 👉 /help.
 """
 
 HELP_STRINGS = """
-Hey there! My name is *{}*.
-I'm a Hero For Fun and help admins manage their groups with One Punch! Have a look at the following for an idea of some of \
-the things I can help you with.
+Hai nama ku Patrick star.
+walaupun semua orang bilang aku bodoh tapi aku bisa membantu mu mengurus grup dengan.
 
-*Main* commands available:
- • /help: PM's you this message.
- • /help <module name>: PM's you info about that module.
- • /donate: information on how to donate!
- • /settings:
+*Main* commands available: [🧠](https://telegra.ph/file/f75cbe142b265aa48de19.jpg)
+ 🐟 /help: PM's you this message.
+ 🐟 /help <module name>: PM's you info about that module.
+ 🐟 settings:
    • in PM: will send you your settings for all supported modules.
    • in a group: will redirect you to pm, with all that chat's settings.
 
@@ -77,11 +75,9 @@ And the following:
     dispatcher.bot.first_name, ""
     if not ALLOW_EXCL else "\nAll commands can either be used with / or !.\n")
 
-SAITAMA_IMG = "https://telegra.ph/file/46e6d9dfcb3eb9eae95d9.jpg"
+SAITAMA_IMG = "https://telegra.ph/file/93addc0640ee81b9b94e6.mp4"
 
-DONATE_STRING = """Heya, glad to hear you want to donate!
-Saitama is hosted on one of Kaizoku's Servers and doesn't require any donations as of now but \
-You can donate to the original writer of the Base code, Paul
+DONATE_STRING = """donate to the original writer of the Base code, Paul
 There are two ways of supporting him; [PayPal](paypal.me/PaulSonOfLars), or [Monzo](monzo.me/paulnionvestergaardlarsen)."""
 
 IMPORTED = {}
@@ -150,7 +146,6 @@ def test(update: Update, context: CallbackContext):
     update.effective_message.reply_text("This person edited a message")
     print(update.effective_message)
 
-
 @run_async
 def start(update: Update, context: CallbackContext):
     args = context.args
@@ -159,58 +154,40 @@ def start(update: Update, context: CallbackContext):
         if len(args) >= 1:
             if args[0].lower() == "help":
                 send_help(update.effective_chat.id, HELP_STRINGS)
-            elif args[0].lower() == "markdownhelp":
-                IMPORTED["extras"].markdown_help_sender(update)
-            elif args[0].lower() == "disasters":
-                IMPORTED["disasters"].send_disasters(update)
+
             elif args[0].lower().startswith("stngs_"):
                 match = re.match("stngs_(.*)", args[0].lower())
                 chat = dispatcher.bot.getChat(match.group(1))
 
                 if is_user_admin(chat, update.effective_user.id):
-                    send_settings(
-                        match.group(1), update.effective_user.id, False)
+                    send_settings(match.group(1), update.effective_user.id, False)
                 else:
-                    send_settings(
-                        match.group(1), update.effective_user.id, True)
+                    send_settings(match.group(1), update.effective_user.id, True)
 
             elif args[0][1:].isdigit() and "rules" in IMPORTED:
                 IMPORTED["rules"].send_rules(update, args[0], from_pm=True)
 
         else:
             first_name = update.effective_user.first_name
-            update.effective_message.reply_photo(
+            update.effective_message.reply_animation(
                 SAITAMA_IMG,
-                PM_START_TEXT.format(
-                    escape_markdown(first_name),
-                    escape_markdown(context.bot.first_name)),
+                caption=PM_START_TEXT.format(escape_markdown(first_name), escape_markdown(context.bot.first_name), OWNER_ID),
                 parse_mode=ParseMode.MARKDOWN,
-                disable_web_page_preview=True,
-                reply_markup=InlineKeyboardMarkup(
-                    [[
-                        InlineKeyboardButton(
-                            text="☑️ Add Saitama to your group",
-                            url="t.me/{}?startgroup=true".format(
-                                context.bot.username))
-                    ],
-                     [
-                         InlineKeyboardButton(
-                             text="🚑 Support Group",
-                             url=f"https://t.me/{SUPPORT_CHAT}"),
-                         InlineKeyboardButton(
-                             text="🔔 Updates Channel",
-                             url="https://t.me/OnePunchUpdates")
-                     ],
-                     [
-                         InlineKeyboardButton(
-                             text="🧾 Getting started guide",
-                             url="https://t.me/OnePunchUpdates/29")
-                     ],
-                     [
-                         InlineKeyboardButton(
-                             text="🗄 Source code",
-                             url="https://github.com/AnimeKaizoku/SaitamaRobot")
-                     ]]))
+                reply_markup=InlineKeyboardMarkup(                   
+                          [[
+                              InlineKeyboardButton(
+                              text="🔥tambahkan aku ke grup mu🔥",
+                              url="t.me/{}?startgroup=true".format(
+                                  context.bot.username))
+                          ], 
+                          [
+                              InlineKeyboardButton(
+                              text="🍁Support Group🍁",
+                              url=f"https://t.me/PatrickSupport"),
+                              InlineKeyboardButton(
+                              text="🥢my owner🥢",
+                              url="https://t.me/Nathalie_Agathaa")
+                          ]])) 
     else:
         update.effective_message.reply_text(
             "I'm online!\n<b>Up since:</b> <code>{}</code>".format(uptime),
