@@ -438,15 +438,15 @@ def adminlist(update, context):
 
 
 __help__ = """
- • `/admins`*:* list of admins in the chat
+• / admins *: * daftar admin dalam obrolan
 
-*Admins only:*
- • `/pin`*:* silently pins the message replied to - add `'loud'` or `'notify'` to give notifs to users.
- • `/unpin`*:* unpins the currently pinned message
- • `/invitelink`*:* gets invitelink
- • `/promote`*:* promotes the user replied to
- • `/demote`*:* demotes the user replied to
- • `/title <title here>`*:* sets a custom title for an admin that the bot promoted
+* Hanya Admin: *
+ • / pin *: * diam-diam menyematkan pesan yang dibalas - tambahkan 'nyaring' atau 'beri tahu' untuk memberikan pemberitahuan kepada pengguna.
+ • / unpin *: * melepas pesan yang saat ini disematkan
+ • / invitelink *: * mendapat invitelink
+ • / promosikan *: * mempromosikan balasan pengguna
+ • / demote *: * menurunkan jawaban pengguna
+ • / title *: * menetapkan judul khusus untuk admin yang dipromosikan bot
 """
 
 ADMINLIST_HANDLER = DisableAbleCommandHandler("admins", adminlist)
